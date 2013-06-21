@@ -1,0 +1,9 @@
+#!/bin/sh
+if [ $# -eq 0 ]; then
+	cat <<EOF
+Usage: $0 inFile [outFile]
+If outFile is not given, prints reduced NFA to console.
+EOF
+else
+	java -cp build/classes nfa.NFAReduction $1 $2
+fi

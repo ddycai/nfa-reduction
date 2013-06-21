@@ -1,0 +1,63 @@
+<project name="NFAReduction" basedir="." default="main">
+	<property name="src.dir"     value="src"/>
+    <property name="build.dir"   value="build"/>
+    <property name="lib.dir"     value="lib"/>
+    <property name="test.dir"     value="test"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir"     value="${build.dir}/jar"/>
+    <property name="report.dir"  value="${build.dir}/junitreport"/>
+    <property name="main-class"  value="nfa.NFAReduction"/>
+
+	<path id="master.classpath">
+	   <fileset dir="${lib.dir}">
+		  <include name="*.jar"/>
+	   </fileset>
+	   <pathelement location="${classes.dir}"/>
+	</path>
+
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+	</target>
+	
+	<target name="compile">
+		<mkdir dir="${classes.dir}"/>
+		<javac srcdir="${src.dir}" destdir="${classes.dir}">
+			<src path="${src.dir}" />
+		</javac>
+	</target>
+	
+	<target name="compile-test" depends="compile">
+		<mkdir dir="${classes.dir}"/>
+		<javac srcdir="${test.dir}" destdir="${classes.dir}">
+			<classpath refid="master.classpath" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${jar.dir}"/>
+		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="build/classes">
+			<manifest>
+				<attribute name="Main-Class" value="nfa.NFAReduction"/>
+			</manifest>
+		</jar>
+	</target>
+	
+
+	<target name="run" depends="jar">
+		<java jar="${jar.dir}/${ant.project.name}.jar" fork="true">
+			<arg line="${args}"/>
+		</java>
+	</target>
+	
+	<target name="main" depends="clean,run" />
+
+	<target name="junit" depends="compile-test">
+		<mkdir dir="${report.dir}" />
+		<junit printsummary="true">
+			<classpath refid="master.classpath" />
+			<formatter type="plain" />
+			<test name="test.nfa.SimulateNFATest" todir="${report.dir}" />
+		</junit>
+	</target>
+
+</project>
