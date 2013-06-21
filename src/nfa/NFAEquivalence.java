@@ -18,6 +18,7 @@ import dcai.structure.*;
 public class NFAEquivalence {
 
 	private final Logger logger = Logger.getLogger(NFAEquivalence.class.getName());
+	boolean DEBUG = false;
 	
 	private NFA M;
 	private int nStates;			//number of states
@@ -76,18 +77,21 @@ public class NFAEquivalence {
 	public DisjointSets computeEquivalence() {
 		computePairs();
 		
-		System.out.println("Equivalence table: ");
-		for(int i = 0; i < nStates; i++) {
-			for(int j = 0; j < nStates; j++)
-				System.out.print((table[i][j] ? "1" : "0") + " ");
-			System.out.println();
+		if(DEBUG) {
+			System.out.println("Equivalence table: ");
+			for(int i = 0; i < nStates; i++) {
+				for(int j = 0; j < nStates; j++)
+					System.out.print((table[i][j] ? "1" : "0") + " ");
+				System.out.println();
+			}
 		}
 		
 		DisjointSets uf = new DisjointSets(nStates);
 		for(int i = 0; i < nStates; i++)
 			for(int j = i + 1; j < nStates; j++)
 				if(areEquivalent(i, j)) {
-					System.out.println(String.format("Joining %d and %d", i, j));
+					if(DEBUG)
+						System.out.println(String.format("Joining %d and %d", i, j));
 					uf.union(i, j);
 				}
 		return uf;
@@ -138,11 +142,13 @@ public class NFAEquivalence {
 			}
 		}
 		
-		System.out.println("Lookup table: ");
-		for(int i = 0; i < lookup.length; i++) {
-			for(int j = 0; j < lookup[i].length; j++)
-				System.out.print((lookup[i][j] ? "1" : "0") + " ");
-			System.out.println();
+		if(DEBUG) {
+			System.out.println("Lookup table: ");
+			for(int i = 0; i < lookup.length; i++) {
+				for(int j = 0; j < lookup[i].length; j++)
+					System.out.print((lookup[i][j] ? "1" : "0") + " ");
+				System.out.println();
+			}
 		}
 		
 		System.out.println("Applying rule 1");
@@ -150,7 +156,8 @@ public class NFAEquivalence {
 		for(int s : M.finalStates())
 			for(int i = 0; i < nStates; i++)
 				if(s != i && !M.finalStates().contains(i)) {
-					System.out.println(String.format("{%d, %d}", s, i));
+					if(DEBUG)
+						System.out.println(String.format("{%d, %d}", s, i));
 					table[i][s] = true;
 					table[s][i] = true;
 				}
@@ -162,6 +169,8 @@ public class NFAEquivalence {
 				if(areEquivalent(i, j)) {
 					for(int k = 0; k <= M.alphabet().length(); k++)
 						if(lookup[i][k] != lookup[j][k]) {
+							
+							if(DEBUG)
 								System.out.println(String.format("{%d, %d}", i, j));
 							
 							table[i][j] = true;
@@ -210,9 +219,10 @@ public class NFAEquivalence {
 					}
 				}
 				if(foundEquivalent) continue;
-				if(M.finalStates().contains(p) && M.finalStates().contains(q) || 
+				if(DEBUG)
+					if(M.finalStates().contains(p) && M.finalStates().contains(q) || 
 						!M.finalStates().contains(p) && !M.finalStates().contains(q))
-					System.out.println(String.format("since %d != %d {%d, %d}", p0, q0, p, q));
+						System.out.println(String.format("since %d != %d {%d, %d}", p0, q0, p, q));
 
 //				System.out.format("%s has no equivalent in %s\n", tp, q);
 //				System.out.format("(%d, %d) eliminated by rule 3\n", p, q);
