@@ -162,7 +162,7 @@ public class NFAReduction {
 			} else {
 				System.out.println();
 				System.out.println("OUTPUT: ");
-				System.out.print(output);
+				//System.out.print(output);
 			}
 		} catch(IOException e) {
 			System.out.println(e);

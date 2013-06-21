@@ -88,7 +88,6 @@ public class DirectedGraph<E extends Edge>
 				map[v] = map[v - 1]  + 1;
 		}
 		
-		System.out.println("Remove: " + remove);
 		while(!remove.isEmpty()) {
 			int v = remove.pop();
 			adj.remove(v);

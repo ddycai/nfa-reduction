@@ -15,9 +15,9 @@ public class RandomNFA {
 
 	int n;				//the number of states
 	String alphabet;	//the alphabet
-	int density;
+	double density;
 	
-	public RandomNFA(int numStates, String alphabet, int density) {
+	public RandomNFA(int numStates, String alphabet, double density) {
 		n = numStates;
 		this.alphabet = alphabet;
 		this.density = density;
@@ -47,7 +47,7 @@ public class RandomNFA {
 		for(int p = 0; p < n; p++)
 			for(int a = 0; a < alphabet.length(); a++)
 				for(int q = 0; q < n; q++) {
-					if(rand.nextInt(100) < density) {
+					if(Math.random() < density) {
 						m.addTransition(p, q, alphabet.charAt(a));
 					}
 				}
@@ -114,7 +114,7 @@ public class RandomNFA {
 		}
 		
 		int length = Integer.parseInt(args[0]);
-		int density = Integer.parseInt(args[1]);
+		double density = Double.parseDouble(args[1]);
 		
 		RandomNFA rand = new RandomNFA(length, "atcg", density);
 		NFA m;
