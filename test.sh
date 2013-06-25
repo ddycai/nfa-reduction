@@ -1,3 +1,3 @@
 #!/bin/sh
 ./randnfa $1 $2 > rand.nfa
-./reduce-nfa rand.nfa rand.out
+./reduce-nfa rand.nfa

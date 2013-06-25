@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.Map.Entry;
 
 import dcai.graph.*;
 
@@ -401,12 +402,31 @@ public class NFA {
 		s.append("digraph {\n");
 		s.append("\tnode [shape=point, color=white, fontcolor=white]; start;\n");
 		s.append("\tnode [shape=circle, color=black, fontcolor=black];\n");
+		
+		//a roundabout way of collecting transitions...
+		HashMap<Tuple, ArrayList<Character>> map = new HashMap<>();
+		
 		for(Transition t : G.edges()) {
 			if(t.symbol() == EPSILON)
 				s.append(String.format("\t%d -> %d [color=red];\n", t.from(), t.to()));
-			else
-				s.append(String.format("\t%d -> %d [label=\"%c\"];\n", t.from(), t.to(), t.symbol()));
+			else {
+				Tuple pair = new Tuple(t.from(), t.to());
+				if(!map.containsKey(pair))
+					map.put(pair, new ArrayList<Character>());
+				map.get(pair).add(t.symbol());
+			}
 		}
+		
+		for(Entry<Tuple, ArrayList<Character>> e : map.entrySet()) {
+			Tuple pair = e.getKey();
+			Collections.sort(e.getValue());
+			String symbols = "" + e.getValue().remove(0);
+			for(char c : e.getValue()) {
+				symbols += c;
+			}
+			s.append(String.format("\t%d -> %d [label=\"%s\"];\n", pair.p(), pair.q(), symbols));
+		}
+		
 		for(int i = 0; i < G.V(); i++) {
 			if(F.contains(i)) {
 				s.append(String.format("\t%d [shape=doublecircle];\n", i));

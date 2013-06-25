@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ $# -eq 0 ]; then
+	cat <<EOF
+Usage: $0 length density
+---
+length:		the length of the regular expression
+density:	operator density; between 0 and 1 inclusive
+EOF
+else
+	java -cp build/classes nfa.RandomNFA $1 $2
+fi
