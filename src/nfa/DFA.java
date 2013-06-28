@@ -25,7 +25,7 @@ public class DFA extends NFA {
 	 * @param finalStates the set of final states
 	 */
 	public DFA(int numStates, String alphabet, int startState, Set<Integer> finalStates) {
-		super(numStates, alphabet, new HashSet<Integer>(1), new HashSet<Integer>());
+		super(numStates, alphabet, new HashSet<Integer>(1), finalStates);
 		I.add(q0);
 		q0 = startState;
 	}

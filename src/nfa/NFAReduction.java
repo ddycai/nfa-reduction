@@ -42,7 +42,7 @@ public class NFAReduction {
 		//merge the sets together and remove duplicates
 		boolean[] inMinSet = new boolean[M.numStates()];
 		
-		System.out.println("Merged states: ");
+//		System.out.println("Merged states: ");
 		for(int i = 1; i < nSets; i++)
 			if(!marked[i] && i <= n || marked[i] && i > n) {
 				Set<Integer> set = sets.get(i);
@@ -59,7 +59,7 @@ public class NFAReduction {
 						mergeLeft(M, sets.get(i));
 					else
 						mergeRight(M, sets.get(i));
-					System.out.println(set);
+//					System.out.println(set);
 				}
 			}
 		M.relabel();

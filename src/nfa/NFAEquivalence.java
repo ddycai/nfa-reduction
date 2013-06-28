@@ -32,7 +32,6 @@ public class NFAEquivalence {
 	 * @param automaton
 	 */
 	public NFAEquivalence(NFA automaton) {
-		Time t = new Time();
 		M = automaton;
 		nStates = M.numStates();
 		
@@ -44,15 +43,13 @@ public class NFAEquivalence {
 		nStates = M.numStates();
 		
 		//compute left-equivalence (since automaton is reversed)
-		t.start("Computing =L");
+		if(DEBUG) System.out.println("Computing =L");
 		L = computeEquivalence();
-		t.end();
-		automaton.reverse();
+		M.reverse();
 		
 		//then compute right-equivalence
-		t.start("Computing =R");
+		if(DEBUG) System.out.println("Computing =R");
 		R = computeEquivalence();
-		t.end();
 	}
 	
 	/**
@@ -151,7 +148,7 @@ public class NFAEquivalence {
 			}
 		}
 		
-		System.out.println("Applying rule 1");
+		if(DEBUG) System.out.println("Applying rule 1");
 		//rule 1
 		for(int s : M.finalStates())
 			for(int i = 0; i < nStates; i++)
@@ -162,7 +159,7 @@ public class NFAEquivalence {
 					table[s][i] = true;
 				}
 
-		System.out.println("Applying rule 2");
+		if(DEBUG) System.out.println("Applying rule 2");
 		//rule 2
 		for(int i = 0; i < nStates; i++) {
 			for(int j = i + 1; j < nStates; j++)
@@ -181,7 +178,7 @@ public class NFAEquivalence {
 		}
 		
 		
-		System.out.println("Applying rule 3");
+		if(DEBUG) System.out.println("Applying rule 3");
 		//rule 3
 		Queue<Tuple> Q = new ArrayDeque<Tuple>(nStates);
 		for(int i = 0; i < nStates; i++) {
