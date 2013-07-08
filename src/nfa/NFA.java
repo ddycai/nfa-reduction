@@ -337,6 +337,22 @@ public class NFA {
 	}
 	
 	/**
+	 * @param q the state number
+	 * @return the number of incoming transitions on the state
+	 */
+	public int indegree(int q) {
+		return G.indegree(q);
+	}
+	
+	/**
+	 * @param q the state number
+	 * @return the number of outgoing transitions on the state
+	 */
+	public int outdegree(int q) {
+		return G.outdegree(q);
+	}
+	
+	/**
 	 * Merges two left-equivalent states v and w
 	 */
 	public void mergeLeft(int v, int w) {

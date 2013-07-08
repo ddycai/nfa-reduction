@@ -3,8 +3,19 @@ package nfa;
 import java.util.HashSet;
 import java.util.Random;
 
+/**
+ * Static utility class for generating random DFAs
+ * @author duncan
+ *
+ */
 public class RandomDFA {
 
+	/**
+	 * Generates a random DFA; the generated DFA is currently not guaranteed to be trim or connected
+	 * @param numState number of states
+	 * @param alphabet String specifying the alphabet
+	 * @return a random DFA
+	 */
 	public static DFA generate(int numState, String alphabet) {
 		
 		Random rand = new Random();

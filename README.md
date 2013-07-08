@@ -4,11 +4,11 @@ nfa-reduction
 Input Format
 -------------
 
-Input begins with a line containing a single integer, n, specifying the number of states (including state 0), followed by a line of characters (no space) specifying the alphabet.
+Input begins with a line containing a single integer, `n`, specifying the number of states (the states are numbered from `0 .. n - 1`), followed by a string of characters  specifying the alphabet.
 
 The next line contains a set of integers separated by spaces specifying the initial states, followed by another line containing a set of integers separated by spaces specifying the final states.
 
-The rest of lines contain two integers, a and b, and a character, c, separated by spaces, indicating that the transition function maps state a to state b through symbol c where 0 <= a, b < n and c belongs to the alphabet.
+The rest of lines contain two integers, `a` and `b`, and a character, `c`, separated by spaces, indicating that the transition function maps state `a` to state `b` through symbol `c` where 0 <= `a`, `b` < `n` and `c` belongs to the alphabet.
 
 Sample Input
 -------------

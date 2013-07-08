@@ -37,26 +37,27 @@ public class RandomNFA {
 		//generates a random, connected NFA
 		int[] list = randomList();
 		for(int i = 1; i < n; i++) {
-			int k = (int) (Math.random() * i);
-			int a = (int) (Math.random() * alphabet.length());
+			int k = rand.nextInt(i);
+			int a = rand.nextInt(alphabet.length());
 			char c = alphabet.charAt(a);
 			m.addTransition(list[k], list[i], c);
+		}
+		
+		//designate the final states
+		for(int i = 0; i < n; i++) {
+			if(m.outdegree(i) == 0) {
+				F.add(i);
+			}
 		}
 		
 		//generate random transitions
 		for(int p = 0; p < n; p++)
 			for(int a = 0; a < alphabet.length(); a++)
 				for(int q = 0; q < n; q++) {
-					if(Math.random() < density) {
+					if(rand.nextDouble() < density) {
 						m.addTransition(p, q, alphabet.charAt(a));
 					}
 				}
-		
-		//generate random final states
-		for(int i = 0; i < n; i++) {
-			if(rand.nextBoolean())
-				F.add(i);
-		}
 		
 		return m;
 	}
@@ -118,9 +119,9 @@ public class RandomNFA {
 		
 		RandomNFA rand = new RandomNFA(length, "atcg", density);
 		NFA m;
-		do {
-			m = rand.generate();
-		} while(!isTrim(m));
+//		do {
+		m = rand.generate();
+//		} while(!isTrim(m));
 		
 		System.out.println(m);
 	}
