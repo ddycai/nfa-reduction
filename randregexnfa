@@ -1,0 +1,12 @@
+#!/bin/sh
+if [ $# -eq 0 ]; then
+	cat <<EOF
+Usage: $0 length density outFile
+---
+length:		the length of the regular expression
+density:	operator density; between 0 and 1 inclusive
+outFile:		name of the output file
+EOF
+else
+	java -cp build/classes nfa.RandomRegexNFA $1 $2 $3
+fi
