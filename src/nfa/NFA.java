@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -93,7 +94,7 @@ public class NFA {
 	}
 	
 	/**
-	 * Reads an NFA from file
+	 * Reads an NFA from a Reader object
 	 * Input format: Input begins with a line containing a single integer, n, specifying the number
 	 * of states (including state 0), followed by a line of characters (no space) specifying the alphabet.
 	 * The next line contains a set of integers separated by spaces specifying the initial states,
@@ -104,13 +105,10 @@ public class NFA {
 	 * @param file the filename
 	 * @throws IOException
 	 */
-	public NFA(File file) throws IOException {
-
-		//System.out.println("Reading " + this.getClass() + " from " + file + "...");
-		BufferedReader br = new BufferedReader(new FileReader(file));
+	public NFA(Reader in) throws IOException {
+		BufferedReader br = new BufferedReader(in);
 		String line;
 		line = br.readLine();
-		
 		//read no. of states
 		int numStates = Integer.parseInt(line);
 		alphabet = br.readLine();
@@ -151,6 +149,13 @@ public class NFA {
 		}
 		//System.out.println("Done.");
 		br.close();
+	}
+	
+	/**
+	 * Reads an NFA from file
+	 */
+	public NFA(File file) throws IOException {
+		this(new FileReader(file));
 	}
 	
 	/**

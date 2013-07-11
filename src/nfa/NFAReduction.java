@@ -136,34 +136,18 @@ public class NFAReduction {
 	}
 	
 	public static void main(String[] args) {
-		
-		if(args.length == 0) {
-			System.out.println("Args: inFile [outFile]");
-			System.exit(0);
-		}
-		String inFile = args[0];
-		String outFile;
-		if(args.length == 1)
-			outFile = null;
-		else
-			outFile = args[1];
-		
 		try {
-			NFA M = new NFA(new File(inFile));
+			Reader in;
+			if(args.length == 0)
+				in = new InputStreamReader(System.in);
+			else
+				in = new FileReader(new File(args[0]));
+			NFA M = new NFA(in);
 			NFAEquivalence equivalence = new NFAEquivalence(M);
 			NFAReduction.reduce(equivalence);
 			//output
 			String output = M.toString();
-			System.out.println("V: " + M.numStates());
-			System.out.println("E: " + M.size());
-			if(outFile != null) {
-				writeToFile(output, outFile);
-				System.out.println("Written to " + outFile);
-			} else {
-				System.out.println();
-				System.out.println("OUTPUT: ");
-				System.out.print(output);
-			}
+			System.out.print(output);
 		} catch(IOException e) {
 			System.out.println(e);
 		} catch(NFAException e) {

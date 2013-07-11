@@ -44,11 +44,8 @@ public class RandomNFA {
 		}
 		
 		//designate the final states
-		for(int i = 0; i < n; i++) {
-			if(m.outdegree(i) == 0) {
-				F.add(i);
-			}
-		}
+		int f = rand.nextInt(n);
+		F.add(f);
 		
 		//generate random transitions
 		for(int p = 0; p < n; p++)

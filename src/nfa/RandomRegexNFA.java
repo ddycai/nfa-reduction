@@ -10,7 +10,7 @@ public class RandomRegexNFA {
 	public static void main(String[] args) throws IOException {
 		
 		if(args.length != 3) {
-			System.out.println("Args: length operator-density name");
+			System.out.println("Args: length operator-density [name]");
 			System.exit(0);
 		}
 		
@@ -24,8 +24,8 @@ public class RandomRegexNFA {
 		System.out.println(regex);
 		System.out.println();
 		NFA M = new NFA(regex, "atcg");
-		System.out.println("Written to " + name + ".nfa");
-		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(name + ".nfa")));
+		System.out.println("Written to " + name);
+		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(name)));
 		writer.write(M.toString());
 		writer.close();
 	}
