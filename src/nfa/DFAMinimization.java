@@ -20,6 +20,14 @@ public class DFAMinimization {
 	 * @param A the automaton
 	 */
 	public static void minimize(DFA A) {
+		
+		//trim the DFA
+//		A.trim();
+//		A.reverse();
+//		A.trim();
+//		A.reverse();
+//		A.relabel();
+		
 		int n = A.numStates();
 		boolean[][] table = tableFillingAlgorithm(A);
 		
@@ -45,6 +53,7 @@ public class DFAMinimization {
 					A.mergeRight(v, w);
 			}
 		}
+		A.relabel();
 	}
 
 	

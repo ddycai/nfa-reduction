@@ -18,6 +18,14 @@ public class Transition extends Edge {
 		reversed = false;
 	}
 	
+	/**
+	 * Copy constructor
+	 */
+	public Transition(Transition t) {
+		this(t.u, t.v, t.symbol);
+		reversed = t.reversed;
+	}
+	
 	public void reverse() { reversed = !reversed; }
 	
 	public char symbol() { return symbol; }

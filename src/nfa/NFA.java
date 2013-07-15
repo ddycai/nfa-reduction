@@ -172,7 +172,28 @@ public class NFA {
 			F.add(i);
 		G = new DirectedGraph<>(m.numStates());
 		for(Transition t : m.transitions())
-			G.addEdge(t);
+			G.addEdge(new Transition(t));
+	}
+	
+	public void trim() {
+		boolean[] marked = new boolean[numStates()];
+		//DFS on initial states
+		Stack<Integer> stack = new Stack<Integer>();
+		for(int q : initialStates())
+			stack.push(q);
+		while(!stack.isEmpty()) {
+			int p = stack.pop();
+			marked[p] = true;
+			for(Transition t : transitionsFrom(p))
+				if(!marked[t.to()])
+					stack.push(t.to());
+		}
+		//remove unmarked states (not reachable thus redundant)
+		for(int i = 0; i < numStates(); i++)
+			if(!marked[i]) {
+				clearVertex(i);
+				//logger.info("Found redundant state: " + i);
+			}
 	}
 	
 	/**

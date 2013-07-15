@@ -6,7 +6,14 @@ import nfa.NFAEquivalence;
 import nfa.NFAReduction;
 import nfa.RandomDFA;
 
-public class ExptDFA {
+/**
+ * Generates a random DFA and runs the DFA minimization algorithm on it.
+ * Then runs the NFA reduction algorithm on the DFA (since a DFA is an NFA)
+ * and compares the results of the two algorithms.
+ * @author duncan
+ *
+ */
+public class ExptDFAMinComparison {
 
 	public static void main(String[] args) {
 		DFA original, min;
@@ -19,7 +26,13 @@ public class ExptDFA {
 		//generate a list of DFAs
 		while(count < goal) {
 			original = RandomDFA.generate(n, alphabet);
+			original.trim();
+			original.reverse();
+			original.trim();
+			original.reverse();
+			original.relabel();
 			min = new DFA(original);
+			min.doStuff();
 			DFAMinimization.minimize(min);
 			//if this DFA can be reduced, then also apply NFAReduction
 			if(min.size() != original.size()) {

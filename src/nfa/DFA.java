@@ -35,6 +35,13 @@ public class DFA extends NFA {
 		for(int i : initialStates())
 			q0 = i;
 	}
+	
+	public void doStuff() {
+		trim();
+		reverse();
+		trim();
+		reverse();
+	}
 
 	/**
 	 * Reads a DFA from file

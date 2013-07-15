@@ -35,9 +35,9 @@ public class NFAEquivalence {
 		M = automaton;
 		nStates = M.numStates();
 		
-		trim();
+		M.trim();
 		M.reverse();
-		trim();
+		M.trim();
 		if(relabel)
 			M.relabel();
 		nStates = M.numStates();
