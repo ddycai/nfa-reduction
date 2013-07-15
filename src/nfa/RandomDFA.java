@@ -34,7 +34,10 @@ public class RandomDFA {
 	}
 
 	public static void main(String[] args) {
-		DFA m = RandomDFA.generate(10, "actg");
+		if(args.length != 2) {
+			System.out.println("Usage: RandomDFA length alphabet");
+		}
+		DFA m = RandomDFA.generate(Integer.parseInt(args[0]), args[1]);
 		System.out.println(m);
 	}
 

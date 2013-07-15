@@ -26,8 +26,14 @@ public class DFA extends NFA {
 	 */
 	public DFA(int numStates, String alphabet, int startState, Set<Integer> finalStates) {
 		super(numStates, alphabet, new HashSet<Integer>(1), finalStates);
-		I.add(q0);
 		q0 = startState;
+		I.add(q0);
+	}
+	
+	public DFA(DFA m) {
+		super(m);
+		for(int i : initialStates())
+			q0 = i;
 	}
 
 	/**
