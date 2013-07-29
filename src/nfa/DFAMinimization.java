@@ -40,7 +40,7 @@ public class DFAMinimization {
 		for(Set<Integer> merge : equivalent) {
 			if(merge.size() == 1)
 				continue;
-			System.out.println(merge);
+//			System.out.println(merge);
 			int v = -1;
 			for(int w : merge) {
 				if(v == -1)

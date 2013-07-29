@@ -9,6 +9,11 @@ The source is compiled into build/classes using `ant`:
 ```
 $ ant
 ```
+Use the bash scripts provided to run the tool:
+
+`min-dfa inFile` will minimize the DFA specified by inFile.
+
+`reduce-nfa inFile` will reduce the NFA specified by inFile.  Also accepts pipe input.
 
 Input Format
 -------------
