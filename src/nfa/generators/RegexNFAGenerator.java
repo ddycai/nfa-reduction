@@ -11,8 +11,8 @@ import nfa.NFA;
  */
 public class RegexNFAGenerator implements NFAGenerator {
 
-	double density;
-	Random rand;
+	private double density;
+	private Random rand;
 	
 	/**
 	 * @param operatorDensity the operator density of the regular expression
@@ -25,6 +25,7 @@ public class RegexNFAGenerator implements NFAGenerator {
 	/**
 	 * Generates a random NFA from a random regex
 	 * The random regex is generated from a string of length n and the specified alphabet
+	 * The resulting NFA will have at least n states, bounded by O(n)
 	 */
 	public NFA generate(int n, String alphabet) {
 		StringBuilder s = new StringBuilder();
