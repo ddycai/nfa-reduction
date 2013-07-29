@@ -10,6 +10,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import nfa.*;
+import nfa.generators.*;
 
 public class SimulateNFATest {
 	

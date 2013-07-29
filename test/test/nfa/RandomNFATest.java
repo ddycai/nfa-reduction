@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.ArrayList;
 
 import nfa.*;
+import nfa.generators.*;
 
 import org.junit.Test;
 

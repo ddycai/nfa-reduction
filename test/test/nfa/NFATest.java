@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import nfa.*;
+import nfa.generators.*;
 
 import org.junit.Test;
 

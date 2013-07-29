@@ -33,22 +33,8 @@
 		</javac>
 	</target>
 
-	<target name="jar" depends="compile">
-		<mkdir dir="${jar.dir}"/>
-		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="build/classes">
-			<manifest>
-				<attribute name="Main-Class" value="nfa.NFAReduction"/>
-			</manifest>
-		</jar>
-	</target>
-
-	<target name="run" depends="jar">
-		<java jar="${jar.dir}/${ant.project.name}.jar" fork="true">
-			<arg line="${args}"/>
-		</java>
-	</target>
 	
-	<target name="main" depends="clean,run" />
+	<target name="main" depends="clean,compile,compile-test" />
 
 	<target name="junit" depends="compile-test">
 		<mkdir dir="${report.dir}" />
