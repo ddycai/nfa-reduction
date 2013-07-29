@@ -1,6 +1,15 @@
 nfa-reduction
 =============
 
+Compiling
+-------------
+
+The source is compiled into build/classes using `ant`:
+
+```
+$ ant
+```
+
 Input Format
 -------------
 
@@ -25,4 +34,3 @@ Sample Input
 	4 6 a
 	5 7 a
 	6 7 a
-
