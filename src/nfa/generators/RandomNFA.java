@@ -1,9 +1,14 @@
-package nfa;
+package nfa.generators;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Stack;
+
+import nfa.NFA;
+import nfa.Transition;
 
 
 /**
@@ -43,10 +48,6 @@ public class RandomNFA {
 			m.addTransition(list[k], list[i], c);
 		}
 		
-		//designate the final states
-		int f = rand.nextInt(n);
-		F.add(f);
-		
 		//generate random transitions
 		for(int p = 0; p < n; p++)
 			for(int a = 0; a < alphabet.length(); a++)
@@ -56,10 +57,25 @@ public class RandomNFA {
 					}
 				}
 		
+		//link non-trimmed states together
+		List<Integer> A = unreachableStates(m);
+		m.reverse();
+		List<Integer> B = unreachableStates(m);
+		m.reverse();
+		boolean[] marked = new boolean[m.numStates()];
+		for(int a : A)
+			marked[a] = true;
+		for(int b : B)
+			marked[b] = true;
+		List<Integer> C = new ArrayList<>();
+		for(int i = 0; i < marked.length; i++)
+			if(!marked[i]) C.add(i);
+		
+		
 		return m;
 	}
 	
-	private static boolean hasUnreachableStates(NFA m) {
+	private List<Integer> unreachableStates(NFA m) {
 		Stack<Integer> s = new Stack<>();
 		boolean[] marked = new boolean[m.numStates()];
 		for(int i : m.initialStates())
@@ -72,20 +88,11 @@ public class RandomNFA {
 				if(!marked[t.to()])
 					s.push(t.to());
 		}
+		List<Integer> list = new ArrayList<Integer>();
 		for(int i = 0; i < marked.length; i++)
 			if(!marked[i])
-				return true;
-		return false;
-	}
-	
-	public static boolean isTrim(NFA m) {
-		if(hasUnreachableStates(m))
-			return false;
-		m.reverse();
-		if(hasUnreachableStates(m))
-			return false;
-		m.reverse();
-		return true;
+				list.add(i);
+		return list;
 	}
 	
 	/**

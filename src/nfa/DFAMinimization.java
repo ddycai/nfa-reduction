@@ -10,10 +10,6 @@ import java.util.Set;
 import dcai.structure.DisjointSets;
 
 public class DFAMinimization {
-	
-	public static void helloWorld() {
-	
-	}
 
 	/**
 	 * Minimizes a DFA by finding equivalent states and merging them
@@ -33,13 +29,13 @@ public class DFAMinimization {
 		
 		DisjointSets sets = new DisjointSets(n);
 		
-		for(int i = 0; i < n; i++)
+		for(int i = 0; i < n; i++) {
 			for(int j = i + 1; j < n; j++)
 				if(!table[i][j]) {
 					sets.union(i, j);
 				}
-
-		System.out.println("Merged states: ");
+		}
+		
 		ArrayList<Set<Integer>> equivalent = sets.getSets();
 		for(Set<Integer> merge : equivalent) {
 			if(merge.size() == 1)
@@ -58,13 +54,20 @@ public class DFAMinimization {
 
 	
 	/**
-	 * Fills in a boolean table where table[p][q] = false if and only if p and q are equivalent states
+	 * Fills in a boolean table where table[p][q] = false iff p and q are equivalent states
 	 * @param a
 	 * @return
 	 */
 	private static boolean[][] tableFillingAlgorithm(DFA a) {
 		int n = a.numStates();
 		char[] alphabet = a.alphabet().toCharArray();
+		
+		boolean[][] delta = new boolean[n][alphabet.length];
+		for(int p = 0; p < n; p++) {
+			for(Transition t : a.transitionsFrom(p)) {
+				delta[p][a.alphabet().indexOf(t.symbol())] = true;
+			}
+		}
 		
 		boolean[][] table = new boolean[n][n];
 		Queue<Tuple> queue = new ArrayDeque<>();
@@ -79,7 +82,7 @@ public class DFAMinimization {
 		for(int p = 0; p < n; p++)
 			for(int q = p + 1; q < n; q++)
 				for(int i = 0; i < alphabet.length; i++)
-					if(!table[p][q] && a.delta(p, i) != a.delta(q, i)) {
+					if(!table[p][q] && delta[p][i] != delta[q][i]) {
 						table[p][q] = true;
 						table[q][p] = true;
 						queue.add(new Tuple(p, q));
@@ -111,28 +114,16 @@ public class DFAMinimization {
 	public static void main(String[] args) {
 		
 		if(args.length == 0) {
-			System.out.println("Args: inFile [outFile]");
+			System.out.println("Args: inFile");
 			System.exit(0);
 		}
 		String inFile = args[0];
-		String outFile;
-		if(args.length == 1)
-			outFile = null;
-		else
-			outFile = args[1];
 		
 		try {
 			DFA a = new DFA(new File(inFile));
-			DFAMinimization.minimize(a);
-			String output = a.toString();
-			if(outFile != null) {
-				NFAReduction.writeToFile(output, outFile);
-				System.out.println("Written to " + outFile);
-			} else {
-				System.out.println();
-				System.out.println("OUTPUT: ");
-				System.out.print(output);
-			}
+			DFA m = new DFA(a);
+			DFAMinimization.minimize(m);
+			System.out.print(m);
 		} catch(IOException e) {
 			System.out.println(e);
 		} catch(NFAException e) {

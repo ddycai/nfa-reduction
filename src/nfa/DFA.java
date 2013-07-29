@@ -15,7 +15,6 @@ import java.util.Set;
 public class DFA extends NFA {
 	
 	private int q0;			//initial state
-	protected boolean[][] delta;
 	
 	/**
 	 * Constructs a new DFA
@@ -30,17 +29,14 @@ public class DFA extends NFA {
 		I.add(q0);
 	}
 	
+	/**
+	 * Copy constructor, makes a deep copy of the argument DFA
+	 * @param m
+	 */
 	public DFA(DFA m) {
 		super(m);
 		for(int i : initialStates())
 			q0 = i;
-	}
-	
-	public void doStuff() {
-		trim();
-		reverse();
-		trim();
-		reverse();
 	}
 
 	/**
@@ -64,17 +60,6 @@ public class DFA extends NFA {
 	}
 	
 	/**
-	 * @param p the state number
-	 * @param i the index of the symbol in the alphabet 
-	 * @return true is p has a transition on symbol, false otherwise
-	 */
-	public boolean delta(int p, int i) {
-		if(delta == null)
-			delta = new boolean[numStates()][alphabet.length()];
-		return delta[p][i];
-	}
-	
-	/**
 	 * Returns the single initial state of the DFA
 	 * @return
 	 */
@@ -89,9 +74,8 @@ public class DFA extends NFA {
 	protected void checkAddTransition(Transition t, int i) {
 		if(t.symbol() == EPSILON)
 			throw new NFAException("DFAs cannot have epsilon transitions");
-		if(delta(t.from(), i))
+		if(transitionsFrom(t.from()).contains(t))
 			throw new NFAException("there is already a transition with symbol " + t.symbol() + " from " + t.from());
-		delta[t.from()][i] = true;
 	}
 	
 }

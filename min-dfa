@@ -5,5 +5,5 @@ Usage: $0 inFile [outFile]
 If outFile is not given, prints reduced DFA to console.
 EOF
 else
-	java -cp build/classes nfa.DFAMinimization $1 $2
+	java -cp build/classes nfa.DFAMinimization $1
 fi

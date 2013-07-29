@@ -1,6 +1,7 @@
 package expt;
 
 import nfa.*;
+import nfa.generators.RandomNFA;
 
 public class ExptNFAReduction {
 
