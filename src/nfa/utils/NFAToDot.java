@@ -1,7 +1,9 @@
-package nfa;
+package nfa.utils;
 
 import java.io.File;
 import java.io.IOException;
+
+import nfa.NFA;
 
 public class NFAToDot {
 

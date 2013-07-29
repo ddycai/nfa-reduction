@@ -1,4 +1,4 @@
-package nfa;
+package nfa.generators;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,6 +11,10 @@ public class RandomRegex {
 	private Random rand = new Random();
 	private String text;
 	private double density;
+	
+	public RandomRegex(double density) {
+		this.density = density;
+	}
 	
 	/**
 	 * Creates a regex generator from a file
@@ -33,7 +37,7 @@ public class RandomRegex {
 	}
 	
 	/**
-	 * Creates a regex generator from text
+	 * Creates a regex generator from some text
 	 * @param text	text to generate regex from
 	 * @param density	the operator density
 	 */
@@ -46,7 +50,7 @@ public class RandomRegex {
 	}
 	
 	/**
-	 * Genereates a regex from a random substring of the text of length n
+	 * Generates a regex from a random substring of the text of length n
 	 * @param n	the size of substring to obtain from text
 	 * @return randomly generated regex
 	 */
@@ -65,7 +69,7 @@ public class RandomRegex {
 	 * @param parent the parent operator
 	 * @return randomly generated regex
 	 */
-	private String generate(String s, char parent) {
+	public String generate(String s, char parent) {
 		if(s.length() <= 1)
 			return s;
 		int l;

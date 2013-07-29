@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import nfa.NFA;
 import nfa.NFAEquivalence;
 import nfa.NFAReduction;
-import nfa.RandomRegex;
+import nfa.generators.RandomRegex;
 
 /**
  * Given a length, density and nTests,
