@@ -382,7 +382,10 @@ public class NFA {
 	 * Merges two left-equivalent states v and w
 	 */
 	public void mergeLeft(int v, int w) {
+		Set<Transition> set = new HashSet<>();
 		for(Transition t : transitionsFrom(w))
+			set.add(t);
+		for(Transition t : set)
 			addTransition(v, t.to(), t.symbol());
 		clearVertex(w);
 		checkMerge(v, w);
@@ -392,8 +395,11 @@ public class NFA {
 	 * Merges two right-equivalent states v and w
 	 */
 	public void mergeRight(int v, int w) {
+		Set<Transition> set = new HashSet<>();
 		for(Transition t : transitionsTo(w))
-			addTransition(v, t.to(), t.symbol());
+			set.add(t);
+		for(Transition t : set)
+			addTransition(t.from(), v, t.symbol());
 		clearVertex(w);
 		checkMerge(v, w);
 	}
