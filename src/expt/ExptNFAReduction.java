@@ -11,14 +11,12 @@ public class ExptNFAReduction {
 		
 		NFA m;
 		RandomNFA rand = new RandomNFA(n, "atcg", 0.1);
-		NFAEquivalence e;
 		
 		for(int i = 0; i < expts; i++) {
 			m = rand.generate();
 			data[i][0] = m.numStates();
 			data[i][1] = m.size();
-			e = new NFAEquivalence(m);
-			NFAReduction.reduce(e);
+			NFAReduction.reduce(m);
 			data[i][2] = m.numStates();
 			data[i][3] = m.size();
 		}
@@ -36,14 +34,12 @@ public class ExptNFAReduction {
 		
 		NFA m;
 		RandomNFA rand = new RandomNFA(n, "atcg", 10);
-		NFAEquivalence e;
 		
 		for(int i = 0; i < expts; i++) {
 			m = rand.generate();
 			data[i][0] = m.numStates();
 			data[i][1] = m.size();
-			e = new NFAEquivalence(m);
-			NFAReduction.reduce(e);
+			NFAReduction.reduce(m);
 			data[i][2] = m.numStates();
 			data[i][3] = m.size();
 		}

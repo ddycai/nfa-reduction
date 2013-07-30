@@ -9,6 +9,7 @@ import nfa.DFA;
 
 /**
  * Static utility class for generating random DFAs
+ * Uses algorithm from 'On the performance of automata minimization algorithms'
  * @author duncan
  *
  */

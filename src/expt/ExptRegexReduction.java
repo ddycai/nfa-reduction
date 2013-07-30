@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import nfa.NFA;
-import nfa.NFAEquivalence;
 import nfa.NFAReduction;
 import nfa.generators.RandomRegex;
 
@@ -44,8 +43,7 @@ public class ExptRegexReduction {
 			m = new NFA(regex, "actg");
 			data[i][0] = m.numStates();
 			data[i][1] = m.size();
-			NFAEquivalence e = new NFAEquivalence(m);
-			NFAReduction.reduce(e);
+			NFAReduction.reduce(m);
 			data[i][2] = m.numStates();
 			data[i][3] = m.size();
 		}

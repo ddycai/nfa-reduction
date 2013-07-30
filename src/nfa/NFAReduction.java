@@ -13,14 +13,15 @@ import dcai.structure.*;
  */
 public class NFAReduction {
 	
+	static boolean relabel = false;
+	
 	/**
 	 * Reduces an NFA given the sets of left- and right-equivalent states
 	 * @param equivalence containing left- and right-equivalent states
 	 * @return the same NFA, except reduced
 	 */
-	public static NFA reduce(NFAEquivalence equivalence) {
-		NFAEquivalence E = equivalence;
-		NFA M = E.getNFA();
+	public static NFA reduce(NFA M) {
+		NFAEquivalence E = new NFAEquivalence(M);
 		DisjointSets left = E.getLeft();
 		DisjointSets right = E.getRight();
 		
@@ -59,10 +60,11 @@ public class NFAReduction {
 						mergeLeft(M, sets.get(i));
 					else
 						mergeRight(M, sets.get(i));
-//					System.out.println(set);
+					System.out.println(set);
 				}
 			}
-		M.relabel();
+		if(relabel)
+			M.relabel();
 		return M;
 	}
 	
@@ -143,8 +145,7 @@ public class NFAReduction {
 			else
 				in = new FileReader(new File(args[0]));
 			NFA M = new NFA(in);
-			NFAEquivalence equivalence = new NFAEquivalence(M);
-			NFAReduction.reduce(equivalence);
+			NFAReduction.reduce(M);
 			//output
 			String output = M.toString();
 			System.out.print(output);

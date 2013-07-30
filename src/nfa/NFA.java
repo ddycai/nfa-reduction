@@ -383,8 +383,9 @@ public class NFA {
 	 */
 	public void mergeLeft(int v, int w) {
 		for(Transition t : transitionsFrom(w))
-			G.addEdge(new Transition(v, t.to(), t.symbol()));
-		G.clearVertex(w);
+			addTransition(v, t.to(), t.symbol());
+		clearVertex(w);
+		checkMerge(v, w);
 	}
 	
 	/**
@@ -392,8 +393,20 @@ public class NFA {
 	 */
 	public void mergeRight(int v, int w) {
 		for(Transition t : transitionsTo(w))
-			G.addEdge(new Transition(t.from(), v, t.symbol()));
-		G.clearVertex(w);
+			addTransition(v, t.to(), t.symbol());
+		clearVertex(w);
+		checkMerge(v, w);
+	}
+	
+	private void checkMerge(int v, int w) {
+		if(F.contains(w)) {
+			F.remove(w);
+			F.add(v);
+		}
+		if(I.contains(w)) {
+			I.remove(w);
+			I.add(v);
+		}
 	}
 	
 	/**

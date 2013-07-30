@@ -24,8 +24,7 @@ public class RandomNFATest {
 		RandomNFA rand = new RandomNFA(50, "atcg", .25);
 		NFA m0 = rand.generate();
 		NFA m = new NFA(m0);
-		NFAEquivalence e = new NFAEquivalence(m);
-		NFAReduction.reduce(e);
+		NFAReduction.reduce(m);
 		
 		String s;
 		int n = 0;		//number of strings
@@ -45,8 +44,7 @@ public class RandomNFATest {
 		System.out.println(regex);
 		NFA m0 = new NFA(regex, "actg");
 		NFA m = new NFA(m0);
-		NFAEquivalence e = new NFAEquivalence(m);
-		NFAReduction.reduce(e);
+		NFAReduction.reduce(m);
 		
 		String s;
 		int n = 10;		//number of strings

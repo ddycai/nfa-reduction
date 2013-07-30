@@ -99,8 +99,7 @@ public class SimulateNFATest {
 				throw new RuntimeException("NFA input is invalid");
 			accepts = simulate(m);
 //			System.out.println(accepts);
-			NFAEquivalence equivalence = new NFAEquivalence(m);
-			NFAReduction.reduce(equivalence);
+			NFAReduction.reduce(m);
 			acceptsReduced = simulate(m);
 //			System.out.println(acceptsReduced);
 			for(String s : accepts) {

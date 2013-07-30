@@ -3,7 +3,6 @@ package expt;
 import nfa.DFA;
 import nfa.DFAMinimization;
 import nfa.NFA;
-import nfa.NFAEquivalence;
 import nfa.NFAReduction;
 import nfa.generators.RandomDFA;
 
@@ -43,8 +42,7 @@ public class ExptDFAMinComparison {
 			//if this DFA can be reduced, then also apply NFAReduction
 			if(min.size() != original.size()) {
 				NFA red = new NFA(original);
-				NFAEquivalence eq = new NFAEquivalence(red);
-				NFAReduction.reduce(eq);
+				NFAReduction.reduce(red);
 				
 //				if(min.size() == red.size())
 //					continue;
