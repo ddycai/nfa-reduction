@@ -176,9 +176,9 @@ public class NFA {
 	}
 	
 	/**
-	 * Trims the NFA
+	 * Removes states that are unreachable from the initial states
 	 */
-	public void trim() {
+	public void removeUnreachableStates() {
 		boolean[] marked = new boolean[numStates()];
 		//DFS on initial states
 		Stack<Integer> stack = new Stack<Integer>();
@@ -198,8 +198,17 @@ public class NFA {
 		for(int i = 0; i < numStates(); i++)
 			if(!marked[i]) {
 				clearVertex(i);
-				//logger.info("Found redundant state: " + i);
 			}
+	}
+	
+	/**
+	 * Trims the NFA
+	 */
+	public void trim() {
+		removeUnreachableStates();
+		reverse();
+		removeUnreachableStates();
+		reverse();
 	}
 	
 	/**
@@ -268,9 +277,7 @@ public class NFA {
 		I = F;
 		F = tmp;
 		
-		G.complement();
-		for(Transition t : G.edges())
-			t.reverse();
+		G.transpose();
 	}
 	
 	/**
@@ -301,7 +308,7 @@ public class NFA {
 	 * The number of states in the automaton
 	 */
 	public int numStates() {
-		return G.V();
+		return G.order();
 	}
 	
 	/**
@@ -309,7 +316,7 @@ public class NFA {
 	 * @return
 	 */
 	public int size() {
-		return G.E();
+		return G.size();
 	}
 	
 	/**
@@ -502,7 +509,7 @@ public class NFA {
 			s.append(String.format("\t%d -> %d [label=\"%s\"];\n", pair.p(), pair.q(), symbols));
 		}
 		
-		for(int i = 0; i < G.V(); i++) {
+		for(int i = 0; i < G.order(); i++) {
 			if(F.contains(i)) {
 				s.append(String.format("\t%d [shape=doublecircle];\n", i));
 			} else if(I.contains(i)) {

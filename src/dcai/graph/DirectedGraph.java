@@ -17,6 +17,10 @@ public class DirectedGraph<E extends Edge>
 
 	protected List<List<E>> adjR;	//reverse adjacency list
 	
+	/**
+	 * Initializes a graph
+	 * @param V the number of vertices
+	 */
 	public DirectedGraph(int V) {
 		super(V);
 		adjR = new ArrayList<List<E>>(V);
@@ -62,12 +66,14 @@ public class DirectedGraph<E extends Edge>
 	}
 	
 	/**
-	 * Complements the graph
+	 * Finds the transpose of the graph (reverses all the edges)
 	 */
-	public void complement() {
+	public void transpose() {
 		List<List<E>> tmplist = adj;
 		adj = adjR;
 		adjR = tmplist;
+		for(Edge e : edges())
+			e.reverse();
 	}
 	
 	/**

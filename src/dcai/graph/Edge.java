@@ -2,23 +2,41 @@ package dcai.graph;
 
 /**
  * A basic edge with no label or extra properties
+ * Note that edges are mutable objects.
  * @author duncan
  *
  */
 public class Edge {
 
 	protected int u, v;
+	private boolean reversed;
 	
 	public Edge(int from, int to) {
 		u = from;
 		v = to;
+		reversed = false;
 	}
 	
-	public int from() { return u; }
+	public Edge(Edge e) {
+		this(e.from(), e.to());
+		reversed = e.reversed;
+	}
 	
-	public int to() { return v; }
+	public int from() {
+		return reversed ? v : u;
+	}
+	
+	/**
+	 * Causes the edge to behave in reverse
+	 * @return
+	 */
+	public int to() {
+		return reversed ? u : v;
+	}
 	
 	public int either() { return u; }
+	
+	public void reverse() { reversed = !reversed; }
 	
 	public int other(int o) {
 		if(u == o) return v;

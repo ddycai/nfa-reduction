@@ -9,7 +9,7 @@ import nfa.NFA;
  */
 public class RegexMethod extends AbstractNFAGenerator {
 	
-	double density;
+	private double density;
 	
 	/**
 	 * Generates a random NFA from a random regex

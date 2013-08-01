@@ -53,9 +53,6 @@ public class RandomDFA {
 		//finalStates.add(rand.nextInt(numState));
 		
 		m.trim();
-		m.reverse();
-		m.trim();
-		m.reverse();
 		m.relabel();
 		
 		return m;

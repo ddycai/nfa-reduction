@@ -39,10 +39,10 @@ public class BipartiteMatching {
 	public BipartiteMatching(UndirectedGraph<Edge> bipartiteGraph, int n) {
 		this.n = n;
 		G = bipartiteGraph;
-		match = new int[G.V()];
+		match = new int[G.order()];
 		for(int i = 1; i < match.length; i++)
 			match[i] = NIL;
-		dist = new int[G.V()];
+		dist = new int[G.order()];
 		hopcroftKarp();
 	}
 	

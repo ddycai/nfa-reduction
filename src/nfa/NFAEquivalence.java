@@ -36,20 +36,18 @@ public class NFAEquivalence {
 		nStates = M.numStates();
 		
 		M.trim();
-		M.reverse();
-		M.trim();
 		if(relabel)
 			M.relabel();
 		nStates = M.numStates();
 		
-		//compute left-equivalence (since automaton is reversed)
+		//compute right-equivalence
+		if(DEBUG) System.out.println("Computing =R");
+		R = computeEquivalence();
+		M.reverse();
+		//compute left-equivalence
 		if(DEBUG) System.out.println("Computing =L");
 		L = computeEquivalence();
 		M.reverse();
-		
-		//then compute right-equivalence
-		if(DEBUG) System.out.println("Computing =R");
-		R = computeEquivalence();
 	}
 	
 	/**

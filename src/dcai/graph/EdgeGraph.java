@@ -47,7 +47,6 @@ public interface EdgeGraph<E> {
 	 * Returns all the edges of the graph
 	 */
 	public Iterable<E> edges();
-
 	
 	/**
 	 * Returns true if u and v are adjacent

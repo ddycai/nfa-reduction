@@ -40,12 +40,12 @@ public abstract class BaseGraph<E extends Edge>
 	/**
 	 * @return the number of vertices
 	 */
-	public int V() { return V; }
+	public int order() { return V; }
 	
 	/**
 	 * @return the number of edges
 	 */
-	public int E() { return E; }
+	public int size() { return E; }
 	
 	/**
 	 * Adds an edge
@@ -101,6 +101,8 @@ public abstract class BaseGraph<E extends Edge>
 	/**
 	 * Checks if graph contains vertex
 	 */
-	public boolean contains(int v) { return v >= 0 && v < V; }
+	public boolean contains(int v) {
+		return v >= 0 && v < V;
+	}
 	
 }

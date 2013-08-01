@@ -64,7 +64,6 @@ public class PartitionMethod extends AbstractNFAGenerator {
 				C.add(i);
 			}
 		
-		m.trim();
 		m.reverse();
 		m.trim();
 		System.out.println(m);

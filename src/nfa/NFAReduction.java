@@ -84,7 +84,7 @@ public class NFAReduction {
 	 */
 	private static boolean[] findVertexCover(UndirectedGraph<Edge> bipartite,
 			BipartiteMatching maxMatch) {
-		int nSets = bipartite.V();
+		int nSets = bipartite.order();
 		Set<Edge> matching = maxMatch.getMatching();
 		//create the residual graph
 		Stack<Integer> stack = new Stack<Integer>();
