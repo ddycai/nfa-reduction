@@ -13,15 +13,23 @@ import dcai.structure.*;
  */
 public class NFAReduction {
 	
-	static boolean relabel = false;
+	/**
+	 * Reduces an NFA and relabels all merged states
+	 * @param m the NFA
+	 * @return
+	 */
+	public static void reduce(NFA m) {
+		reduce(m, true);
+	}
 	
 	/**
-	 * Reduces an NFA given the sets of left- and right-equivalent states
-	 * @param equivalence containing left- and right-equivalent states
-	 * @return the same NFA, except reduced
+	 * Reduces an NFA
+	 * @param m the NFA
+	 * @param relabel if true, relabels all merged states
+	 * @return
 	 */
-	public static NFA reduce(NFA M) {
-		NFAEquivalence E = new NFAEquivalence(M);
+	public static void reduce(NFA m, boolean relabel) {
+		NFAEquivalence E = new NFAEquivalence(m);
 		DisjointSets left = E.getLeft();
 		DisjointSets right = E.getRight();
 		
@@ -33,7 +41,7 @@ public class NFAReduction {
 		
 		//build the bipartite graph
 		UndirectedGraph<Edge> bipartite = new UndirectedGraph<>(nSets);
-		for(int i = 0; i < M.numStates(); i++)
+		for(int i = 0; i < m.numStates(); i++)
 			bipartite.addEdge(new Edge(left.find(i) + 1, n + right.find(i) + 1));
 		
 		//find the maximum matching & vertex cover
@@ -41,7 +49,7 @@ public class NFAReduction {
 		boolean[] marked = findVertexCover(bipartite, maxMatch);
 		
 		//merge the sets together and remove duplicates
-		boolean[] inMinSet = new boolean[M.numStates()];
+		boolean[] inMinSet = new boolean[m.numStates()];
 		
 //		System.out.println("Merged states: ");
 		for(int i = 1; i < nSets; i++)
@@ -57,15 +65,14 @@ public class NFAReduction {
 				}
 				if(set.size() > 1) {
 					if(i <= n)
-						mergeLeft(M, sets.get(i));
+						mergeLeft(m, sets.get(i));
 					else
-						mergeRight(M, sets.get(i));
-					System.out.println(set);
+						mergeRight(m, sets.get(i));
+//					System.out.println(set);
 				}
 			}
 		if(relabel)
-			M.relabel();
-		return M;
+			m.relabel();
 	}
 	
 	/**

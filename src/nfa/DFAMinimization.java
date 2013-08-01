@@ -12,10 +12,20 @@ import dcai.structure.DisjointSets;
 public class DFAMinimization {
 
 	/**
-	 * Minimizes a DFA by finding equivalent states and merging them
-	 * @param A the automaton
+	 * Finds the minimum DFA by merging equivalent states
+	 * Sets relabel to true (see overloaded method)
+	 * @param A the DFA
 	 */
 	public static void minimize(DFA A) {
+		minimize(A, true);
+	}
+	
+	/**
+	 * Finds the minimum DFA by merging equivalent states
+	 * @param A the DFA
+	 * @param relabel if true, relabels all merged states
+	 */
+	public static void minimize(DFA A, boolean relabel) {
 		
 		//trim the DFA
 //		A.trim();
@@ -49,7 +59,8 @@ public class DFAMinimization {
 					A.mergeRight(v, w);
 			}
 		}
-		A.relabel();
+		if(relabel)
+			A.relabel();
 	}
 
 	

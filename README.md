@@ -4,7 +4,7 @@ nfa-reduction
 Compiling
 -------------
 
-The source is compiled into build/classes using `ant`:
+The source is compiled into build/classes using Apache Ant (you must have Apache Ant installed):
 
 ```
 $ ant

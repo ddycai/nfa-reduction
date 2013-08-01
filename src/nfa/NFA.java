@@ -159,7 +159,7 @@ public class NFA {
 	}
 	
 	/**
-	 * Copy constructor
+	 * Copy constructor: makes a deep copy of the NFA
 	 * @param m the NFA to copy
 	 */
 	public NFA(NFA m) {
@@ -175,18 +175,24 @@ public class NFA {
 			G.addEdge(new Transition(t));
 	}
 	
+	/**
+	 * Trims the NFA
+	 */
 	public void trim() {
 		boolean[] marked = new boolean[numStates()];
 		//DFS on initial states
 		Stack<Integer> stack = new Stack<Integer>();
-		for(int q : initialStates())
+		for(int q : initialStates()) {
 			stack.push(q);
+			marked[q] = true;
+		}
 		while(!stack.isEmpty()) {
 			int p = stack.pop();
-			marked[p] = true;
 			for(Transition t : transitionsFrom(p))
-				if(!marked[t.to()])
+				if(!marked[t.to()]) {
 					stack.push(t.to());
+					marked[t.to()] = true;
+				}
 		}
 		//remove unmarked states (not reachable thus redundant)
 		for(int i = 0; i < numStates(); i++)
@@ -199,7 +205,7 @@ public class NFA {
 	/**
 	 * Simulates the string on the NFA
 	 * @param s the input string
-	 * @return whether the NFA accepts the input string
+	 * @return true if the NFA accepts the input string, false otherwise
 	 */
 	public boolean accepts(String s) {
 		Stack<Integer> stack = new Stack<>();
@@ -228,13 +234,18 @@ public class NFA {
 	 */
 	private Set<Integer> epsilonDfs(Stack<Integer> stack) {
 		Set<Integer> marked = new HashSet<>();
+		
+		for(int i : stack)
+			marked.add(i);
+		
 		while(!stack.isEmpty()) {
 			int q = stack.pop();
-			marked.add(q);
 			for(Transition t : transitionsFrom(q))
 				if(!marked.contains(t.to())) {
-					if(t.symbol() == EPSILON)
+					if(t.symbol() == EPSILON) {
 						stack.add(t.to());
+						marked.add(t.to());
+					}
 				}
 		}
 		return marked;
@@ -404,6 +415,11 @@ public class NFA {
 		checkMerge(v, w);
 	}
 	
+	/**
+	 * Checks if merged state was a final or initial state
+	 * @param v
+	 * @param w
+	 */
 	private void checkMerge(int v, int w) {
 		if(F.contains(w)) {
 			F.remove(w);
@@ -434,9 +450,7 @@ public class NFA {
 	}
 	
 	/**
-	 * Converts an NFA to a string
-	 * @param M the NFA
-	 * @return a string representation
+	 * Converts the NFA to a string
 	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

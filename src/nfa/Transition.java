@@ -10,7 +10,7 @@ import dcai.graph.*;
 public class Transition extends Edge {
 
 	private char symbol;
-	boolean reversed;
+	private boolean reversed;
 	
 	public Transition(int u, int v, char c) {
 		super(u, v);
