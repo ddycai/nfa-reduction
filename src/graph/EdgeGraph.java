@@ -1,4 +1,4 @@
-package dcai.graph;
+package graph;
 
 /**
  * A graph with |V| vertices numbered 0...|V| - 1, and a set of edges.

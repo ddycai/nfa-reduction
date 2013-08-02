@@ -1,5 +1,7 @@
 package nfa;
 
+import graph.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,7 +10,6 @@ import java.io.Reader;
 import java.util.*;
 import java.util.Map.Entry;
 
-import dcai.graph.*;
 
 /**
  * Represents a nondeterministic finite automaton (NFA) with a directed graph
@@ -209,6 +210,7 @@ public class NFA {
 		reverse();
 		removeUnreachableStates();
 		reverse();
+		relabel();
 	}
 	
 	/**
@@ -283,7 +285,7 @@ public class NFA {
 	/**
 	 * Adds a transition to the NFA
 	 */
-	public void addTransition(int u, int v, char symbol) {
+	public Transition addTransition(int u, int v, char symbol) {
 		int i = alphabet.indexOf(symbol);
 		if(i == -1 && symbol != EPSILON)
 				throw new NFAException("Symbol (" + symbol  + ") not part of the alphabet.");
@@ -292,6 +294,7 @@ public class NFA {
 		//prevent duplicates
 		if(!transitionsFrom(uv.from()).contains(uv))
 			G.addEdge(uv);
+		return uv;
 	}
 	
 	protected void checkAddTransition(Transition t, int i) { }

@@ -29,7 +29,7 @@ public class RegexMethod extends AbstractNFAGenerator {
 	}
 	
 	/**
-	 * Generates a random regex from a random string using the algorithm by Ilie et al
+	 * Generates a random regex from a random string using the algorithm by Ilie et al.
 	 * @param s	the string to generate the regex
 	 * @return randomly generated regex
 	 */

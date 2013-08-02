@@ -1,14 +1,10 @@
 package nfa.generators;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
-import java.util.Stack;
 
 import nfa.NFA;
-import nfa.Transition;
 
 
 /**
@@ -48,6 +44,9 @@ public class RandomNFA {
 			m.addTransition(list[k], list[i], c);
 		}
 		
+		int f = (int)(Math.random() * m.numStates());
+		F.add(f);
+		
 		//generate random transitions
 		for(int p = 0; p < n; p++)
 			for(int a = 0; a < alphabet.length(); a++)
@@ -57,42 +56,7 @@ public class RandomNFA {
 					}
 				}
 		
-		//link non-trimmed states together
-		List<Integer> A = unreachableStates(m);
-		m.reverse();
-		List<Integer> B = unreachableStates(m);
-		m.reverse();
-		boolean[] marked = new boolean[m.numStates()];
-		for(int a : A)
-			marked[a] = true;
-		for(int b : B)
-			marked[b] = true;
-		List<Integer> C = new ArrayList<>();
-		for(int i = 0; i < marked.length; i++)
-			if(!marked[i]) C.add(i);
-		
-		
 		return m;
-	}
-	
-	private List<Integer> unreachableStates(NFA m) {
-		Stack<Integer> s = new Stack<>();
-		boolean[] marked = new boolean[m.numStates()];
-		for(int i : m.initialStates())
-			s.push(i);
-		
-		while(!s.isEmpty()) {
-			int p = s.pop();
-			marked[p] = true;
-			for(Transition t : m.transitionsFrom(p))
-				if(!marked[t.to()])
-					s.push(t.to());
-		}
-		List<Integer> list = new ArrayList<Integer>();
-		for(int i = 0; i < marked.length; i++)
-			if(!marked[i])
-				list.add(i);
-		return list;
 	}
 	
 	/**
@@ -121,13 +85,13 @@ public class RandomNFA {
 		int length = Integer.parseInt(args[0]);
 		double density = Double.parseDouble(args[1]);
 		
-		RandomNFA rand = new RandomNFA(length, "atcg", density);
+		RandomNFA rand = new RandomNFA(length, "01", density);
 		NFA m;
-//		do {
 		m = rand.generate();
-//		} while(!isTrim(m));
-		
-		System.out.println(m);
+		m.trim();
+		//System.out.println(m);
+		System.out.println(m.numStates());
+		System.out.println(m.size());
 	}
 	
 }

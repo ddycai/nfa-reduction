@@ -1,4 +1,4 @@
-package dcai.structure;
+package utils;
 
 
 public class Time {

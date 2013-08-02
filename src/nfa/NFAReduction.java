@@ -1,10 +1,12 @@
 package nfa;
 
+import graph.*;
+
 import java.io.*;
 import java.util.*;
 
-import dcai.graph.*;
-import dcai.structure.*;
+import utils.*;
+
 
 /**
  * Reduces an NFA given the sets of left- and right-equivalent states

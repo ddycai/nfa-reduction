@@ -1,4 +1,4 @@
-package dcai.graph;
+package graph;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -77,14 +77,17 @@ public class DirectedGraph<E extends Edge>
 	}
 	
 	/**
-	 * Relabels all the vertices in the graph to remove disconnected vertices
-	 * Returns a table mapping old labels to new labels, removed labels have entry -1
-	 * Warning: changes variables of Edge!
+	 * Calculates an array mapping old labels to new labels, removed labels have entry -1
+	 * Warning: changes the fields of Edge
 	 */
 	public int[] relabel() {
 		int[] map = new int[V];
 		Stack<Integer> remove = new Stack<>();
-		map[0] = 0;
+		
+		if(indegree(0) == 0 && outdegree(0) == 0) {
+			map[0] = -1;
+		} else
+			map[0] = 0;
 		
 		for(int v = 1; v < V; v++) {
 			if(indegree(v) == 0 && outdegree(v) == 0) {
@@ -101,11 +104,24 @@ public class DirectedGraph<E extends Edge>
 			map[v] = -1;
 			V--;
 		}
-		for(E uv : edges()) {
-			uv.v = map[uv.v];
-			uv.u = map[uv.u];
+	
+		for(E e : edges()) {
+			e.u = map[e.u];
+			e.v = map[e.v];
 		}
+		
 		return map;
+	}
+	
+	/**
+	 * Removes all the edges in the graph
+	 */
+	public void clear() {
+		for(List<E> list : adj)
+			list.clear();
+		for(List<E> list : adjR)
+			list.clear();
+		E = 0;
 	}
 	
 	

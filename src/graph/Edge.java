@@ -1,8 +1,8 @@
-package dcai.graph;
+package graph;
 
 /**
  * A basic edge with no label or extra properties
- * Note that edges are mutable objects.
+ * Note that edges are mutable objects, and their fields may be changed.
  * @author duncan
  *
  */
@@ -54,10 +54,6 @@ public class Edge {
         Edge other = (Edge) obj;
         return u == other.u && v == other.v;
     }
-	
-	public int hashCode() {
-		return u + v * 31;
-	}
 	
 	public String toString() { return String.format("%d-%d", u, v); }
 	

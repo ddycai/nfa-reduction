@@ -4,12 +4,19 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import utils.Time;
+
 import nfa.NFA;
 import nfa.NFAReduction;
+import nfa.Tuple;
 
-import dcai.graph.Edge;
-import dcai.structure.Time;
-
+/**
+ * Generates a trim NFA by randomly generating a spanning tree starting from the initial state that
+ * ensures all states can be reached by the inital states then randomly generating
+ * a spanning tree starting from the final state ensuring that all states can reach the final state.
+ * @author duncan
+ *
+ */
 public class SpanningTreeMethod extends AbstractNFAGenerator {
 	
 	Time time = new Time();
@@ -23,6 +30,7 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 		adj = new boolean[n][n][alphabet.length()];
 		NFA m = skeleton(n, alphabet);
 		int count = m.size();
+		System.out.println("Before adding transitions: " + count);
 		int goal = (int)(n * n * alphabet.length() * density);
 		while(count < goal) {
 			int p = rand.nextInt(n);
@@ -45,11 +53,11 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 	 * @return a trim NFA
 	 */
 	private NFA skeleton(int n, String alphabet) {
-		Set<Edge> T = randomSpanningTree(0, n);
+		Set<Tuple> T = randomSpanningTree(0, n);
 		int finalState = (int)(Math.random() * n);
-		Set<Edge> finalTree = randomSpanningTree(finalState, n);
-		for(Edge e : finalTree) {
-			T.add(new Edge(e.to(), e.from()));
+		Set<Tuple> finalTree = randomSpanningTree(finalState, n);
+		for(Tuple e : finalTree) {
+			T.add(new Tuple(e.p(), e.q()));
 		}
 		
 		Set<Integer> initialStates = new HashSet<>();
@@ -58,10 +66,10 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 		finalStates.add(finalState);
 		
 		NFA m = new NFA(n, alphabet, initialStates, finalStates);
-		for(Edge e : T) {
+		for(Tuple e : T) {
 			int k = (int)(Math.random() * alphabet.length());
-			m.addTransition(e.from(), e.to(), alphabet.charAt(k));
-			adj[e.from()][e.to()][k] = true;
+			m.addTransition(e.p(), e.q(), alphabet.charAt(k));
+			adj[e.p()][e.q()][k] = true;
 		}
 		
 		return m;
@@ -75,8 +83,8 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 	 * 4. once the path reaches T, add the path into T
 	 * @return a set of edges representing the spanning tree
 	 */
-	public static Set<Edge> randomSpanningTree(int r, int n) {
-		Set<Edge> T = new HashSet<>();
+	public static Set<Tuple> randomSpanningTree(int r, int n) {
+		Set<Tuple> T = new HashSet<>();
 		ArrayList<Integer> notInTree = new ArrayList<>();
 		for(int i = 0; i < n; i++) {
 			if(i != r)
@@ -96,7 +104,7 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 			} while(notInTree.contains(u));
 			for(int i = path.size() - 1; i >= 0; i--) {
 				if(i != 0)
-					T.add(new Edge(path.get(i), path.get(i - 1)));
+					T.add(new Tuple(path.get(i), path.get(i - 1)));
 				notInTree.remove((Integer)path.get(i));
 			}
 		}
@@ -105,7 +113,7 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 	
 	public static void main(String[] args) {
 		AbstractNFAGenerator rand = new SpanningTreeMethod();
-		NFA m = rand.generate(100, 0.5, "01");
+		NFA m = rand.generate(100, 0.01, "01");
 		System.out.println(String.format("|V| = %d |E| = %d", m.numStates(), m.size()));
 		System.out.println("Final states: " + m.finalStates());
 //		System.out.println(m);

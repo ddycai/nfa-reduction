@@ -1,6 +1,6 @@
 package nfa;
 
-import dcai.graph.*;
+import graph.*;
 
 /**
  * Represents a transition
@@ -20,7 +20,7 @@ public class Transition extends Edge {
 	 * Copy constructor
 	 */
 	public Transition(Transition t) {
-		this(t.u, t.v, t.symbol);
+		this(t.from(), t.to(), t.symbol);
 	}
 	
 	public char symbol() { return symbol; }

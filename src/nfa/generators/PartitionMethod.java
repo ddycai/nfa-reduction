@@ -8,6 +8,15 @@ import java.util.Stack;
 
 import nfa.*;
 
+/**
+ * Generates a trim NFA
+ * The procedure is to partition the NFA into three sets: A, B and C which represent
+ * states that are accessible, coaccessible, and both, respectively
+ * Then randomly add transitions from each state in B to A U C,
+ * and from each state in C to A U B so that the NFA is trim.
+ * @author duncan
+ *
+ */
 public class PartitionMethod extends AbstractNFAGenerator {
 	
 	/**
@@ -31,27 +40,27 @@ public class PartitionMethod extends AbstractNFAGenerator {
 		
 		initialStates.add(0);
 		finalStates.add((int)(Math.random() * n));
+		System.out.println(m);
 		connect(m, 3);
 		return m;
 	}
 	
 	/**
 	 * Takes an NFA that is not trim and adds transitions randomly so that it becomes trim
-	 * The procedure is to partition the NFA into three sets: accessible, coaccessible, and both
-	 * Then to connect these three sets together so that all states are accessible and coaccessible 
-	 * @param m
+	 * @param m the NFA
+	 * @param k the number of random edges to use in connecting sets together
 	 */
-	private static void connect(NFA m, int k) {
+	private void connect(NFA m, int k) {
 		int n = m.numStates();
-		System.out.println(m);
 		List<Integer> A = new ArrayList<>();
 		for(int i = 0; i < n; i++)
 			A.add(i);
 		//DFS from initial states
 		List<Integer> B = new ArrayList<>();
 		boolean[] marked = mark(m);
-		for(int i = 0; i < n; i++)
-			if(!marked[i] && A.remove(i) != -1) {
+		for(Integer i = 0; i < n; i++)
+			if(!marked[i]) {
+				A.remove((Integer)i);
 				B.add(i);
 			}
 		
@@ -59,18 +68,40 @@ public class PartitionMethod extends AbstractNFAGenerator {
 		m.reverse();
 		List<Integer> C = new ArrayList<>();
 		marked = mark(m);
-		for(int i = 0; i < n; i++)
-			if(!marked[i] && A.remove(i) != -1) {
+		for(Integer i = 0; i < n; i++)
+			if(!marked[i]) {
+				A.remove((Integer)i);
 				C.add(i);
 			}
-		
 		m.reverse();
-		m.trim();
-		System.out.println(m);
 		
 		System.out.println("A: " + A);
 		System.out.println("B: " + B);
 		System.out.println("C: " + C);
+		
+		List<Integer> AUB = new ArrayList<>(A);
+		AUB.addAll(B);
+		
+		List<Integer> AUC = new ArrayList<>(A);
+		AUC.addAll(C);
+		
+		//connect
+		for(int vertex : C) {
+			int randIndex = rand.nextInt(AUB.size());
+			char randSymbol = m.alphabet().charAt(rand.nextInt(m.alphabet().length()));
+			Transition t = m.addTransition(vertex, AUB.get(randIndex), randSymbol);
+			System.out.println(t);
+		}
+		
+		
+		for(int vertex : B) {
+			int randIndex = rand.nextInt(AUC.size());
+			char randSymbol = m.alphabet().charAt(rand.nextInt(m.alphabet().length()));
+			Transition t = m.addTransition(AUC.get(randIndex), vertex, randSymbol);
+			System.out.println(t);
+		}
+		
+		//System.out.println(m);
 	}
 	
 	private static boolean[] mark(NFA m) {
@@ -96,7 +127,10 @@ public class PartitionMethod extends AbstractNFAGenerator {
 	
 	public static void main(String[] args) {
 		AbstractNFAGenerator gen = new PartitionMethod();
-		gen.generate(5, 0.25, "01");
+		NFA m = gen.generate(1000, 0.001, "01");
+		System.out.println(m);
+		m.trim();
+		System.out.println(m.numStates());
 //		Set<Integer> initialStates = new HashSet<Integer>();
 //		Set<Integer> finalStates = new HashSet<Integer>();
 //		NFA m = new NFA(6, "01", initialStates, finalStates);

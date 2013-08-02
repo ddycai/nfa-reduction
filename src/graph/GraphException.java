@@ -1,4 +1,4 @@
-package dcai.graph;
+package graph;
 
 /**
  * Thrown when there are invalid operations the graph

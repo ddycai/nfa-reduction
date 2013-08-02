@@ -1,4 +1,4 @@
-package dcai.graph;
+package graph;
 
 import java.util.*;
 
