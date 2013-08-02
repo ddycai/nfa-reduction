@@ -7,7 +7,8 @@ import java.io.PrintWriter;
 
 import nfa.NFA;
 import nfa.NFAReduction;
-import nfa.generators.RandomRegex;
+import nfa.generators.AbstractNFAGenerator;
+import nfa.generators.RegexMethod;
 
 /**
  * Given a length, density and nTests,
@@ -27,10 +28,9 @@ public class ExptRegexReduction {
 	}
 	
 	public DataSet runexpt(int nTests, int length, double density) throws IOException {
-		RandomRegex rand = new RandomRegex(text, density);
 		int[][] data = new int[nTests][4];
 		double[][] reduced = new double[nTests][2];
-
+		AbstractNFAGenerator gen = new RegexMethod();
 		NFA m;
 		
 		String filename = String.format("expt-data/%s-%d-%.2f.txt", alphabet, length, density);
@@ -38,9 +38,7 @@ public class ExptRegexReduction {
 		PrintWriter writer = new PrintWriter(new FileWriter(new File(filename)));
 		
 		for(int i = 0; i < nTests; i++) {
-			String regex = rand.generate(length);
-			writer.println(regex);
-			m = new NFA(regex, "actg");
+			m = gen.generate(length, density, alphabet);
 			data[i][0] = m.numStates();
 			data[i][1] = m.size();
 			NFAReduction.reduce(m);

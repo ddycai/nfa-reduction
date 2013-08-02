@@ -2,7 +2,6 @@ package test.nfa;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
@@ -21,8 +20,8 @@ public class RandomNFATest {
 	
 	@Test
 	public void test() {
-		RandomNFA rand = new RandomNFA(50, "atcg", .25);
-		NFA m0 = rand.generate();
+		AbstractNFAGenerator gen = new RegexMethod();
+		NFA m0 = gen.generate(50, 0.25, "actg");
 		NFA m = new NFA(m0);
 		NFAReduction.reduce(m);
 		
@@ -39,10 +38,8 @@ public class RandomNFATest {
 	
 	public void testRegex() throws IOException {
 		int length = 30;
-		RandomRegex rand = new RandomRegex(new File("ecoli.txt"), 0.25);
-		String regex = rand.generate(length);
-		System.out.println(regex);
-		NFA m0 = new NFA(regex, "actg");
+		AbstractNFAGenerator gen = new RegexMethod();
+		NFA m0 = gen.generate(length, 0.25, "actg");
 		NFA m = new NFA(m0);
 		NFAReduction.reduce(m);
 		

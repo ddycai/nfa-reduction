@@ -33,7 +33,7 @@ public class ExptNFAReduction {
 		int[][] data = new int[expts][4];
 		
 		NFA m;
-		RandomNFA rand = new RandomNFA(n, "atcg", 10);
+		RandomNFA rand = new RandomNFA(n, "atcg", .10);
 		
 		for(int i = 0; i < expts; i++) {
 			m = rand.generate();
