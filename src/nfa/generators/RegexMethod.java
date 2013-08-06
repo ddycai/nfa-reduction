@@ -24,7 +24,7 @@ public class RegexMethod extends AbstractNFAGenerator {
 			s.append(alphabet.charAt(index));
 		}
 		String regex = randomRegex(s.toString());
-		System.out.println(regex);
+//		System.out.println(regex);
 		return new NFA(regex, alphabet);
 	}
 	

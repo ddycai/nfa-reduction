@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import utils.Time;
-
 import nfa.NFA;
 import nfa.NFAReduction;
 import nfa.Tuple;
@@ -19,7 +17,6 @@ import nfa.Tuple;
  */
 public class SpanningTreeMethod extends AbstractNFAGenerator {
 	
-	Time time = new Time();
 	boolean[][][] adj;
 	
 	/**
@@ -30,7 +27,6 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 		adj = new boolean[n][n][alphabet.length()];
 		NFA m = skeleton(n, alphabet);
 		int count = m.size();
-		System.out.println("Before adding transitions: " + count);
 		int goal = (int)(n * n * alphabet.length() * density);
 		while(count < goal) {
 			int p = rand.nextInt(n);
@@ -42,7 +38,6 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 				count++;
 			}
 		}
-		time.end();
 		return m;
 	}
 	
@@ -115,10 +110,8 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 		AbstractNFAGenerator rand = new SpanningTreeMethod();
 		NFA m = rand.generate(100, 0.01, "01");
 		System.out.println(String.format("|V| = %d |E| = %d", m.numStates(), m.size()));
-		System.out.println("Final states: " + m.finalStates());
 //		System.out.println(m);
 		NFAReduction.reduce(m);
-		System.out.println(m);
 		System.out.println(String.format("|V| = %d |E| = %d", m.numStates(), m.size()));
 	}
 }

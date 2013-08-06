@@ -40,7 +40,7 @@ public class PartitionMethod extends AbstractNFAGenerator {
 		
 		initialStates.add(0);
 		finalStates.add((int)(Math.random() * n));
-		System.out.println(m);
+//		System.out.println(m);
 		connect(m, 3);
 		return m;
 	}
@@ -75,9 +75,9 @@ public class PartitionMethod extends AbstractNFAGenerator {
 			}
 		m.reverse();
 		
-		System.out.println("A: " + A);
-		System.out.println("B: " + B);
-		System.out.println("C: " + C);
+//		System.out.println("A: " + A);
+//		System.out.println("B: " + B);
+//		System.out.println("C: " + C);
 		
 		List<Integer> AUB = new ArrayList<>(A);
 		AUB.addAll(B);
@@ -89,16 +89,16 @@ public class PartitionMethod extends AbstractNFAGenerator {
 		for(int vertex : C) {
 			int randIndex = rand.nextInt(AUB.size());
 			char randSymbol = m.alphabet().charAt(rand.nextInt(m.alphabet().length()));
-			Transition t = m.addTransition(vertex, AUB.get(randIndex), randSymbol);
-			System.out.println(t);
+			m.addTransition(vertex, AUB.get(randIndex), randSymbol);
+//			System.out.println(t);
 		}
 		
 		
 		for(int vertex : B) {
 			int randIndex = rand.nextInt(AUC.size());
 			char randSymbol = m.alphabet().charAt(rand.nextInt(m.alphabet().length()));
-			Transition t = m.addTransition(AUC.get(randIndex), vertex, randSymbol);
-			System.out.println(t);
+			m.addTransition(AUC.get(randIndex), vertex, randSymbol);
+//			System.out.println(t);
 		}
 		
 		//System.out.println(m);
@@ -131,17 +131,6 @@ public class PartitionMethod extends AbstractNFAGenerator {
 		System.out.println(m);
 		m.trim();
 		System.out.println(m.numStates());
-//		Set<Integer> initialStates = new HashSet<Integer>();
-//		Set<Integer> finalStates = new HashSet<Integer>();
-//		NFA m = new NFA(6, "01", initialStates, finalStates);
-//		initialStates.add(0);
-//		finalStates.add(5);
-//		m.addTransition(0, 1, '0');
-//		m.addTransition(0, 2, '0');
-//		m.addTransition(0, 3, '0');
-//		m.addTransition(1, 5, '0');
-//		m.addTransition(2, 5, '0');
-//		m.addTransition(4, 5, '0');
 	}
 
 }
