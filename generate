@@ -1,0 +1,2 @@
+#!/bin/sh
+java -cp build/classes nfa.generators.MainGenerator $1 $2 $3 $4

@@ -26,6 +26,7 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 	public NFA generate(int n, double density, String alphabet) {
 		adj = new boolean[n][n][alphabet.length()];
 		NFA m = skeleton(n, alphabet);
+//		System.out.println(m.size());
 		int count = m.size();
 		int goal = (int)(n * n * alphabet.length() * density);
 		while(count < goal) {
@@ -108,7 +109,7 @@ public class SpanningTreeMethod extends AbstractNFAGenerator {
 	
 	public static void main(String[] args) {
 		AbstractNFAGenerator rand = new SpanningTreeMethod();
-		NFA m = rand.generate(100, 0.01, "01");
+		NFA m = rand.generate(100, 0.5, "01");
 		System.out.println(String.format("|V| = %d |E| = %d", m.numStates(), m.size()));
 //		System.out.println(m);
 		NFAReduction.reduce(m);
