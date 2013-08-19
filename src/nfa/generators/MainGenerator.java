@@ -19,8 +19,15 @@ public class MainGenerator {
 			generator = new PartitionMethod();
 		} else if(args[0].equalsIgnoreCase("regex")) {
 			generator = new RegexMethod();
-		} else {
+		} else if(args[0].equalsIgnoreCase("spanning")) {
 			generator = new SpanningTreeMethod();
+		} else {
+			generator = null;
+		}
+		
+		if(generator == null) {
+			System.out.println("That is not a valid method for generating NFAs.  Must be spanning, regex or partition.");
+			System.exit(0);
 		}
 		
 		int len = Integer.parseInt(args[1]);
